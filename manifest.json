@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Zynclista",
+  "version": "1.0.0",
+  "description": "Custom",
+  "permissions": ["declarativeNetRequest"],
+  "host_permissions": ["https://zynclist.xyz/*"],
+  "declarative_net_request": {
+    "rule_resources": [{
+      "id": "ruleset1",
+      "enabled": true,
+      "path": "rules.json"
+    }]
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://zynced.app/app*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["zynclist.png", "themes.png", "github.png"],
+      "matches": ["https://zynced.app/*"]
+    }
+  ],
+  "icons": {
+    "48": "zynclist.png",
+    "128": "zynclist.png"
+  }
+}

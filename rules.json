@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "responseHeaders": [
+        { "header": "X-Frame-Options", "operation": "remove" },
+        { "header": "Content-Security-Policy", "operation": "remove" },
+        { "header": "frame-ancestors", "operation": "remove" }
+      ]
+    },
+    "condition": {
+      "urlFilter": "https://zynclist.xyz/*",
+      "resourceTypes": ["sub_frame"]
+    }
+  }
+]
