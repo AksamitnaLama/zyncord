@@ -25,7 +25,7 @@ var THEMES = [
   }
 ];
 
-var TRANSPARENT_CLASSES = ".chat-area, .sidebar, .sidebar-left, .sidebar-left-bar, .main-content, .settings-container, .right-sidebar, .subchannel-header-info, .sidebar-left-bar-buttons, .group-info-header";
+var TRANSPARENT_CLASSES = ".chat-area, .sidebar, .sidebar-left, .sidebar-left-bar, .main-content, .settings-container, .right-sidebar, .subchannel-header-info, .sidebar-left-bar-buttons, .group-info-header, .chat-header, .chat-header.has-active-chat";
 
 var EXTRA_TRANSPARENT = ".subchannel-header-info, .subchannel-header, .voice-on-other-bar, .voice-on-other-bar-content, .voice-panel-row, .voice-panel-channel-info, .voice-panel-inner, .voice-connection-panel { background: transparent !important; background-color: transparent !important; } body .subchannel-header-info, body .subchannel-header, body .voice-on-other-bar, body .voice-on-other-bar-content, body .voice-panel-row, body .voice-panel-channel-info, body .voice-panel-inner, body .voice-connection-panel { background: transparent !important; background-color: transparent !important; }";
 
@@ -86,34 +86,33 @@ function applyCustomCSS(css) {
 }
 
 function injectButton() {
-  var sidebar = document.querySelector(".sidebar-left-bar-buttons");
-  if (!sidebar) return;
+  var footer = document.querySelector(".sidebar-footer-profile");
+  if (!footer) return;
   if (document.getElementById("zynclist-btn")) return;
-
-  var refBtn = document.getElementById("settings-btn") || sidebar.querySelector(".header-btn");
-  var refStyle = refBtn ? window.getComputedStyle(refBtn) : null;
-  var borderRadius = refStyle ? refStyle.borderRadius : "12px";
-  var btnSize = refStyle ? refStyle.width : "44px";
 
   var btn = document.createElement("button");
   btn.id = "zynclist-btn";
-  btn.setAttribute("style",
-    "cursor:pointer;border:none;padding:6px;display:flex;align-items:center;" +
-    "justify-content:center;width:" + btnSize + ";height:" + btnSize + ";" +
-    "border-radius:" + borderRadius + ";box-sizing:border-box;" +
-    "background:#2e2e2e !important;background-color:#2e2e2e !important;"
-  );
+  btn.title = "Zynclista";
+  btn.style.cssText = "cursor:pointer;border:none;padding:6px;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;box-sizing:border-box;background:transparent;flex-shrink:0;";
 
   var label = document.createElement("span");
   label.textContent = "ZL";
   label.style.cssText = "font-size:12px;font-weight:700;color:#fff;letter-spacing:0.5px;";
   btn.appendChild(label);
 
+  btn.addEventListener("mouseenter", function() { btn.style.background = "rgba(255,255,255,0.1)"; });
+  btn.addEventListener("mouseleave", function() { btn.style.background = "transparent"; });
+
   btn.addEventListener("click", function() {
     window.open("https://zynclist.xyz", "zynclist-popup", "width=1200,height=850,left=100,top=80,resizable=yes,scrollbars=yes");
   });
 
-  sidebar.insertBefore(btn, sidebar.firstChild);
+  var avatar = document.getElementById("sidebar-left-bar-user-avatar");
+  if (avatar && avatar.parentNode) {
+    avatar.parentNode.insertBefore(btn, avatar);
+  } else {
+    footer.appendChild(btn);
+  }
 }
 
 function buildThemesPanel(settingsMain) {
@@ -248,7 +247,7 @@ function injectSettingsTab() {
 
     var title = document.getElementById("settings-global-title");
     var subtitle = document.getElementById("settings-global-subtitle");
-    if (title) title.textContent = "Zyncord";
+    if (title) title.textContent = "Zyncord (ver. 1.3)";
     if (subtitle) subtitle.textContent = "Zyncord options";
 
     var footerDesc = document.getElementById("settings-footer-section-desc");
@@ -319,7 +318,7 @@ function injectSettingsTab() {
   githubBtn.appendChild(document.createTextNode("Github"));
 
   githubBtn.addEventListener("click", function() {
-    window.open("https://github.com/grupha-hakerska-pirahow", "_blank");
+    window.open("https://github.com/AksamitnaLama", "_blank");
   });
 
   settingsNav.appendChild(githubBtn);

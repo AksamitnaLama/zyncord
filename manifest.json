@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Zynclista",
-  "version": "1.0.0",
-  "description": "Custom",
+  "version": "1.3.0",
+  "description": "Zyncord 1.3",
   "permissions": ["declarativeNetRequest"],
   "host_permissions": ["https://zynclist.xyz/*"],
   "declarative_net_request": {
