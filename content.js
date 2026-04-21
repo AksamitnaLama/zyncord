@@ -48,6 +48,16 @@ function applyTheme(themeId) {
   });
 }
 
+function applyHideHovercard(enabled) {
+  var styleTag = document.getElementById("zyncord-hide-hovercard-style");
+  if (!styleTag) {
+    styleTag = document.createElement("style");
+    styleTag.id = "zyncord-hide-hovercard-style";
+    document.head.appendChild(styleTag);
+  }
+  styleTag.textContent = enabled ? ".sidebar-user-profile-hovercard-root { display: none !important; visibility: hidden !important; pointer-events: none !important; }" : "";
+}
+
 function applySkipLoading(enabled) {
   var styleTag = document.getElementById("zyncord-skip-loading-style");
   if (!styleTag) {
@@ -247,7 +257,7 @@ function injectSettingsTab() {
 
     var title = document.getElementById("settings-global-title");
     var subtitle = document.getElementById("settings-global-subtitle");
-    if (title) title.textContent = "Zyncord (ver. 1.3)";
+    if (title) title.textContent = "Zyncord (ver. 1.3.1)";
     if (subtitle) subtitle.textContent = "Zyncord options";
 
     var footerDesc = document.getElementById("settings-footer-section-desc");
@@ -264,6 +274,7 @@ function injectSettingsTab() {
       zyncordPanel.style.cssText = "padding:24px 32px;";
 
       var skipLoading = localStorage.getItem("zyncord-skip-loading") === "true";
+      var hideHovercard = localStorage.getItem("zyncord-hide-hovercard") === "true";
 
       zyncordPanel.innerHTML = [
         '<div class="settings-group">',
@@ -276,6 +287,18 @@ function injectSettingsTab() {
               '<div style="position:absolute;top:3px;left:' + (skipLoading ? '23px' : '3px') + ';width:18px;height:18px;border-radius:50%;background:#fff;transition:left 0.2s;"></div>',
             '</div>',
             '<span id="zyncord-skip-loading-label" style="font-size:14px;">' + (skipLoading ? "Enabled" : "Disabled") + '</span>',
+          '</div>',
+        '</div>',
+        '<div class="settings-group">',
+          '<label class="settings-label">',
+            '<span class="label-text">Ukryj wy\u015bwietlanie profilu po najechaniu</span>',
+            '<span class="label-description">Ukrywa popup profilu przy najechaniu na kontakt z listy</span>',
+          '</label>',
+          '<div style="display:flex;align-items:center;gap:12px;margin-top:10px;">',
+            '<div id="zyncord-hide-hovercard-toggle" style="width:44px;height:24px;border-radius:12px;cursor:pointer;position:relative;transition:background 0.2s;background:' + (hideHovercard ? '#5865f2' : '#555') + ';">',
+              '<div style="position:absolute;top:3px;left:' + (hideHovercard ? '23px' : '3px') + ';width:18px;height:18px;border-radius:50%;background:#fff;transition:left 0.2s;"></div>',
+            '</div>',
+            '<span id="zyncord-hide-hovercard-label" style="font-size:14px;">' + (hideHovercard ? "Enabled" : "Disabled") + '</span>',
           '</div>',
         '</div>'
       ].join("");
@@ -297,7 +320,22 @@ function injectSettingsTab() {
         applySkipLoading(isEnabled);
       });
 
+      var hoverToggle = zyncordPanel.querySelector("#zyncord-hide-hovercard-toggle");
+      var hoverLabel = zyncordPanel.querySelector("#zyncord-hide-hovercard-label");
+      var hoverDot = hoverToggle.querySelector("div");
+      var hoverEnabled = localStorage.getItem("zyncord-hide-hovercard") === "true";
+
+      hoverToggle.addEventListener("click", function() {
+        hoverEnabled = !hoverEnabled;
+        localStorage.setItem("zyncord-hide-hovercard", hoverEnabled);
+        hoverToggle.style.background = hoverEnabled ? "#5865f2" : "#555";
+        hoverDot.style.left = hoverEnabled ? "23px" : "3px";
+        hoverLabel.textContent = hoverEnabled ? "Enabled" : "Disabled";
+        applyHideHovercard(hoverEnabled);
+      });
+
       if (skipLoading) applySkipLoading(true);
+      if (hideHovercard) applyHideHovercard(true);
     }
 
     zyncordPanel.style.display = "block";
@@ -338,4 +376,5 @@ injectSettingsTab();
   var savedCss = localStorage.getItem("zynclist-custom-css");
   if (savedCss) applyCustomCSS(savedCss);
   if (localStorage.getItem("zyncord-skip-loading") === "true") applySkipLoading(true);
+  if (localStorage.getItem("zyncord-hide-hovercard") === "true") applyHideHovercard(true);
 })();

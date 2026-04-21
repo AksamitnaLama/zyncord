@@ -6,7 +6,9 @@
 ## Features
 
 - 🎨 **Themes** — Built-in color themes with a live dropdown selector
-- 🔗 **Zynclist button** — Quick access to [zynclist.xyz](https://zynclist.xyz) from the sidebar
+- ⚡ **Hide loading screen** — Skip the preloader animation for a faster experience
+- � **Hide profile hover popup** — Disable the profile card that appears when hovering over contacts
+- �🔗 **Zynclista button** — Quick access to [zynclist.xyz](https://zynclist.xyz) from the sidebar
 - ⚙️ **Settings integration** — All options live inside the native Zynced Settings panel
 
 ---
@@ -16,7 +18,7 @@
 1. Download or clone this repository
 2. Open `brave://extensions` (or `chrome://extensions`)
 3. Enable **Developer mode**
-4. Click **Load unpacked** and select the `zynclist-extension` folder 
+4. Click **Load unpacked** and select the `zynclist-extension` folder
 5. Open [zynced.app/app](https://zynced.app/app)
 
 ---
